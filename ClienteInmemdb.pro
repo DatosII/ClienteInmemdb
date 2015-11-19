@@ -12,6 +12,8 @@ TARGET = ClienteInmemdb
 TEMPLATE = app
 
 
-SOURCES += main.cpp
+SOURCES += main.cpp \
+    wrapperxml.cpp
 
-HEADERS  +=
+HEADERS  += \
+    wrapperxml.h
