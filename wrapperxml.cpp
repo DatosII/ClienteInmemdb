@@ -1,10 +1,18 @@
 #include "wrapperxml.h"
 
+/**
+ * @brief WrapperXml::WrapperXml, constructor de la clase
+ */
 WrapperXml::WrapperXml(){
 
 }
-
-void WrapperXml::readXml(const char* pRuta){
+/**
+ * @brief WrapperXml::readXml, metodo para realizar la lectura del xml
+ * @param pRuta, directorio del documento
+ * @param pRoot, raiz del documento
+ * @param pSon, hijo del documento
+ */
+void WrapperXml::readXml(const char* pRuta, const char* pRoot, const char* pSon){
     std::ifstream file(pRuta);
     std::stringstream buffer;
     if(file){
@@ -12,22 +20,15 @@ void WrapperXml::readXml(const char* pRuta){
         file.close();
 
         std::string content = buffer.str();
-        //std::cout << "--------------------------" << std::endl;
-        std::cout << content << std::endl;
-        //std::cout << "--------------------------" << std::endl;
-
 
         rapidxml::xml_document<> xml;
         xml.parse<0>((char*)&content[0]);
-        rapidxml::xml_node<> * root_node = xml.first_node("root");
+        rapidxml::xml_node<> * root_node = xml.first_node(pRoot);
         if(root_node == 0)
             return ;
         std::cout << "Found node: " << root_node->name() << std::endl;
 
-        rapidxml::xml_node<> * resources_node = root_node->first_node("ApplicationSettings");
+        rapidxml::xml_node<> * resources_node = root_node->first_node(pSon);
         std::cout << "Found node: " << resources_node->name() << std::endl;
-
-        rapidxml::xml_attribute<> * path_attribute = resources_node->first_attribute("option_b");
-        std::cout << path_attribute->name() << std::endl;
     }
 }

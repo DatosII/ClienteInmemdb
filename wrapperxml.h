@@ -8,10 +8,9 @@
 
 class WrapperXml{
 private:
-
 public:
     WrapperXml();
-    void readXml(const char *pRuta);
+    void readXml(const char *pRuta, const char *pRoot, const char *pSon);
 };
 
 #endif // WRAPPERXML_H
