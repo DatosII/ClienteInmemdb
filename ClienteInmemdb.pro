@@ -13,7 +13,9 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp \
-    wrapperxml.cpp
+    wrapperxml.cpp \
+    terminal/terminal.cpp
 
 HEADERS  += \
-    wrapperxml.h
+    wrapperxml.h \
+    terminal/terminal.h

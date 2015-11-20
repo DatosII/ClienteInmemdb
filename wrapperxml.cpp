@@ -32,7 +32,12 @@ void WrapperXml::readXml(const char* pRuta, const char* pRoot, const char* pSon)
         std::cout << "Found node: " << resources_node->name() << std::endl;
     }
 }
-
+/**
+ * @brief WrapperXml::writeXml, metodo para escribir un xml
+ * @param pRuta, directorio en el que se guardara el documento
+ * @param pRoot, raiz del documento
+ * @param pSon, hijo del documento
+ */
 void WrapperXml::writeXml(const char* pRuta, const char* pRoot, const char* pSon){
     xml_document<> doc;
     xml_node<>* decl = doc.allocate_node(node_declaration);
