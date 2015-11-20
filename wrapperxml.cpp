@@ -33,18 +33,17 @@ void WrapperXml::readXml(const char* pRuta, const char* pRoot, const char* pSon)
     }
 }
 
-void WrapperXml::writeXml(){
-    // Write xml file =================================
+void WrapperXml::writeXml(const char* pRuta, const char* pRoot, const char* pSon){
     xml_document<> doc;
     xml_node<>* decl = doc.allocate_node(node_declaration);
     decl->append_attribute(doc.allocate_attribute("version", "1.0"));
     decl->append_attribute(doc.allocate_attribute("encoding", "utf-8"));
     doc.append_node(decl);
 
-    xml_node<>* root = doc.allocate_node(node_element, "root");
+    xml_node<>* root = doc.allocate_node(node_element, pRoot);
     doc.append_node(root);
 
-    xml_node<>* child = doc.allocate_node(node_element, "AplicationSettings");
+    xml_node<>* child = doc.allocate_node(node_element, pSon);
     child->append_attribute(doc.allocate_attribute("option_a", "10"));
     child->append_attribute(doc.allocate_attribute("option_b", "24"));
     root->append_node(child);
@@ -54,7 +53,7 @@ void WrapperXml::writeXml(){
     rapidxml::print(std::back_inserter(xml_as_string), doc);
 
     // Save to file
-    std::ofstream file_stored ("/home/jairodaniel_23/file_stored.xml");
+    std::ofstream file_stored (pRuta);
     file_stored << doc;
     file_stored.close();
     doc.clear();

@@ -13,7 +13,7 @@ private:
 public:
     WrapperXml();
     void readXml(const char *pRuta, const char *pRoot, const char *pSon);
-    void writeXml();
+    void writeXml(const char *pRuta, const char *pRoot, const char *pSon);
 };
 
 #endif // WRAPPERXML_H
