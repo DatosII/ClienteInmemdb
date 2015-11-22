@@ -14,8 +14,11 @@ TEMPLATE = app
 
 SOURCES += main.cpp \
     wrapperxml.cpp \
-    terminal/terminal.cpp
+    terminal/terminal.cpp \
+    adapter.cpp
 
 HEADERS  += \
     wrapperxml.h \
-    terminal/terminal.h
+    terminal/terminal.h \
+    adapter.h
+CONFIG += c++11

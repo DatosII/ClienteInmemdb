@@ -38,28 +38,46 @@ void WrapperXml::readXml(const char* pRuta, const char* pRoot, const char* pSon)
  * @param pRoot, raiz del documento
  * @param pSon, hijo del documento
  */
-void WrapperXml::writeXml(const char* pRuta, const char* pRoot, const char* pSon){
-    xml_document<> doc;
-    xml_node<>* decl = doc.allocate_node(node_declaration);
-    decl->append_attribute(doc.allocate_attribute("version", "1.0"));
-    decl->append_attribute(doc.allocate_attribute("encoding", "utf-8"));
-    doc.append_node(decl);
+void WrapperXml::writeCreateSchemeXml(std::string pMsg, xml_document<> &pDocument){
+    xml_node<>* decl = pDocument.allocate_node(node_declaration);
+    decl->append_attribute(pDocument.allocate_attribute("version", "1.0"));
+    decl->append_attribute(pDocument.allocate_attribute("encoding", "utf-8"));
+    pDocument.append_node(decl);
 
-    xml_node<>* root = doc.allocate_node(node_element, pRoot);
-    doc.append_node(root);
+    xml_node<>* root = pDocument.allocate_node(node_element, "scheme");
+    pDocument.append_node(root);
 
-    xml_node<>* child = doc.allocate_node(node_element, pSon);
-    child->append_attribute(doc.allocate_attribute("option_a", "10"));
-    child->append_attribute(doc.allocate_attribute("option_b", "24"));
-    root->append_node(child);
+    std::istringstream pBuffer(pMsg);
+    std::string subString;
+    pBuffer >> subString;
+    xml_node<>* childSN = pDocument.allocate_node(node_element, "schameName");
+    childSN->value(strdup(subString.c_str()));
+    root->append_node(childSN);
+    pBuffer >> subString;
+    xml_node<>* childR = pDocument.allocate_node(node_element, "RAID");
+    childR->value(strdup(subString.c_str()));
+    root->append_node(childR);
 
-    // Convert doc to string if needed
-    std::string xml_as_string;
-    rapidxml::print(std::back_inserter(xml_as_string), doc);
+    while(pBuffer){
+        pBuffer >> subString;
+        if(subString=="#")
+            break;
+        else{
+            xml_node<>* childD = pDocument.allocate_node(node_element, "data");
+            xml_node<>* childDT = pDocument.allocate_node(node_element, "dataType");
+            childDT->value(strdup(subString.c_str()));
+            childD->append_node(childDT);
+            pBuffer >> subString;
+            xml_node<>* childDL = pDocument.allocate_node(node_element, "dataLenght");
+            childDL->value(strdup(subString.c_str()));
+            childD->append_node(childDL);
+            pBuffer >> subString;
+            xml_node<>* childDN= pDocument.allocate_node(node_element, "dataName");
+            childDN->value(strdup(subString.c_str()));
+            childD->append_node(childDN);
+            root->append_node(childD);
+        }
+    }
 
-    // Save to file
-    std::ofstream file_stored (pRuta);
-    file_stored << doc;
-    file_stored.close();
-    doc.clear();
 }
+

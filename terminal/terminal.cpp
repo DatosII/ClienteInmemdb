@@ -1,58 +1,160 @@
 #include "terminal.h"
 
+/**
+ * @brief Terminal::Terminal, constructor de la clase
+ */
 Terminal::Terminal(){
+    _adapter = new Adapter();
+}
+/**
+ * @brief Terminal::request, Metodo para ejecutar una tarea
+ */
+void Terminal::request(){
+    selectProtocol();
+    requestAux();
 
 }
 
-void Terminal::solicitud(){
+void Terminal::requestAux(){
     do{
         std::cout << MSGWELCOME << std::endl;
-        std::getline (std::cin , choice);
+        std::getline (std::cin , _choice);
     }
-    while( (choice != CREARESQUEMA) && (choice != BORRARESQUEMA) && (choice != INSERTARDATOESQUEMA) && (choice != BORRARDATOESQUEMA) && (choice != CREARINDICE) && (choice != BORRARINDICE) && (choice != SALIR));
-    if(choice == CREARESQUEMA){
-        crearEsquema();
+    while( (_choice != SELECTPROTOCOL) && (_choice != CREATESCHEME) && (_choice != DELETESCHEME) && (_choice != INSERTDATASCHEME) && (_choice != DELETEDATASCHEME) && (_choice != CREATEINDEX) && (_choice != DELETEINDEX) && (_choice != EXIT));
+    if(_choice == SELECTPROTOCOL){
+        selectProtocol();
     }
-    else if (choice == BORRARESQUEMA){
-        borrarEsquema();
+    else if(_choice == CREATESCHEME){
+        createScheme();
     }
-    else if (choice == INSERTARDATOESQUEMA){
-        insertarDatoEsquema();
+    else if (_choice == DELETESCHEME){
+        deleteScheme();
     }
-    else if (choice == BORRARDATOESQUEMA){
-        borrarDatoEsquema();
+    else if (_choice == INSERTDATASCHEME){
+        insertDataScheme();
     }
-    else if (choice == CREARINDICE){
-        crearIndice();
+    else if (_choice == DELETEDATASCHEME){
+        deleteDataScheme();
     }
-    else if (choice == BORRARINDICE){
-        borrarIndice();
+    else if (_choice == CREATEINDEX){
+        createIndex();
     }
-    else if (choice== SALIR)
+    else if (_choice == DELETEINDEX){
+        deleteIndex();
+    }
+    else if (_choice== EXIT)
         exit(0);
-    solicitud();
+    requestAux();
 }
 
-void Terminal::crearEsquema(){
-
+void Terminal::selectProtocol(){
+    do{
+        std::cout << MSGPROTOCOL << std::endl;
+        std::getline (std::cin , _protocol);
+    }
+    while(_protocol != "content-type: xml" && _protocol != "content-type: json");
+    _adapter->setProtocol(_protocol);
 }
 
-void Terminal::borrarEsquema(){
+/**
+ * @brief Terminal::createScheme, Metodo para crear un esquema
+ */
+void Terminal::createScheme(){
+    do{
+        std::cout << MSGNAMESCHEME << std::endl;
+        std::getline (std::cin , _msgtemp);
+    }
+    while(_msgtemp == " ");
+    _msg=_msgtemp;
+    do{
+        std::cout << MSGNUMBERRAID << std::endl;
+        std::getline (std::cin , _msgtemp);
+    }
+    while((_msgtemp != "0") && (_msgtemp != "1") && (_msgtemp != "5") );
+    _msg=_msg+" "+_msgtemp;
+    crearDato();
+    _adapter->createScheme(_msg+" #");
 
 }
-
-void Terminal::insertarDatoEsquema(){
+/**
+ * @brief Terminal::crearDato, Metodo para armar el dato del esquema
+ */
+void Terminal::crearDato(){
+    bool state = true;
+    int numData = 0;
+    do{
+        std::cout << MSGDATA << std::endl;
+        std::getline (std::cin , _msgtemp);
+        if(_msgtemp == "no")
+            state=false;
+        else if (checkData(_msgtemp) == true){
+            _msg=_msg+" "+_msgtemp;
+            std::cout << "Dato correcto" << std::endl;
+            numData++;
+        }
+        else{
+            std::cout << "Dato incorrecto" << std::endl;
+            numData++;
+        }
+    }
+    while(state == true && numData !=0 );
 
 }
-
-void Terminal::borrarDatoEsquema(){
-
+/**
+ * @brief Terminal::checkData, Metodo auxiliar para verificar que el dato es correcto
+ * @param pMsg
+ * @return
+ */
+bool Terminal::checkData(std::string pMsg){
+    int condition=-1;
+    std::istringstream pBuffer(pMsg);
+    std::string pArray[4];
+    while (pBuffer) {
+        condition++;
+        std::string subString;
+        pBuffer >> subString;
+        pArray[condition]=subString;
+    }
+    if((pArray[0]=="int" || pArray[0]=="string" || pArray[0]=="float" || pArray[0]=="join") && checkStringToInt(pArray[1]) == true)
+        return true;
+    else
+        return false;
+}
+/**
+ * @brief Terminal::checkStringToInt, Metodo para convertir string a int
+ * @param pString, dato a convertir
+ * @return, true si convierte el dato, false en caso contrario
+ */
+bool Terminal::checkStringToInt(std::string pString){
+    bool cond=true;
+    try{
+        std::stoi(pString);
+    }
+    catch (std::invalid_argument){
+        cond = false;
+    }
+    catch (std::out_of_range){
+        cond = false;
+    }
+    return cond;
 }
 
-void Terminal::crearIndice(){
-
+void Terminal::deleteScheme(){
+    exit(0);
 }
 
-void Terminal::borrarIndice(){
+void Terminal::insertDataScheme(){
+    exit(0);
+}
+
+void Terminal::deleteDataScheme(){
+    exit(0);
+}
+
+void Terminal::createIndex(){
+    exit(0);
+}
+
+void Terminal::deleteIndex(){
 
 }
