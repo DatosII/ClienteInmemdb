@@ -16,11 +16,13 @@ SOURCES += main.cpp \
     wrapperxml.cpp \
     terminal/terminal.cpp \
     adapter.cpp \
-    clientinmemdb.cpp
+    clientinmemdb.cpp \
+    wrapperjson.cpp
 
 HEADERS  += \
     wrapperxml.h \
     terminal/terminal.h \
     adapter.h \
-    clientinmemdb.h
+    clientinmemdb.h \
+    wrapperjson.h
 CONFIG += c++11

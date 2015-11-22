@@ -14,23 +14,27 @@
 #include <unistd.h>
 
 
-#define BUFSIZE 1024
-#define pPUERTO 8000
-#define CERO 0
-#define LOOP true
+#define _BUFSIZE 1024
+#define _PUERTO 8000
+#define _CERO 0
+#define _LOOP true
 
+class ClientInmemdb;
 struct informacionCliente{
-    std::string _IP;
-    int _PUERTO;
+    std::string IP;
+    int PUERTO;
+    ClientInmemdb * cliente;
 };
 
 class ClientInmemdb{
 private:
     pthread_t  clienteThread;
     informacionCliente* informacion;
+    char * _msg;
 public:
-    ClientInmemdb(std::string pIp, int pPuerto);
+    ClientInmemdb(std::string pIp, int pPuerto, char* pMsg);
     static void* conectarClientes(void *pInformacion);
+    void setMsg(char * pMsg);
 };
 
 #endif // CLIENTINMEMDB_H

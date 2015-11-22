@@ -64,7 +64,7 @@ void Terminal::createScheme(){
         std::cout << MSGNAMESCHEME << std::endl;
         std::getline (std::cin , _msgtemp);
     }
-    while(_msgtemp == " ");
+    while(_msgtemp.length() != 10);
     _msg=_msgtemp;
     do{
         std::cout << MSGNUMBERRAID << std::endl;
@@ -115,8 +115,12 @@ bool Terminal::checkData(std::string pMsg){
         pBuffer >> subString;
         pArray[condition]=subString;
     }
-    if((pArray[0]=="int" || pArray[0]=="string" || pArray[0]=="float" || pArray[0]=="join") && checkStringToInt(pArray[1]) == true)
-        return true;
+    if(checkStringToInt(pArray[1]) == true && pArray[2].length()==10){
+        if(((pArray[0]=="i" || pArray[0]=="f") && pArray[1] == "4") || (pArray[0]=="s" || pArray[0]=="j"))
+            return true;
+        else
+            return false;
+    }
     else
         return false;
 }
@@ -140,21 +144,21 @@ bool Terminal::checkStringToInt(std::string pString){
 }
 
 void Terminal::deleteScheme(){
-    exit(0);
+    std::cout << "Opcion no disponible" << std::endl;
 }
 
 void Terminal::insertDataScheme(){
-    exit(0);
+    std::cout << "Opcion no disponible" << std::endl;
 }
 
 void Terminal::deleteDataScheme(){
-    exit(0);
+    std::cout << "Opcion no disponible" << std::endl;
 }
 
 void Terminal::createIndex(){
-    exit(0);
+    std::cout << "Opcion no disponible" << std::endl;
 }
 
 void Terminal::deleteIndex(){
-
+    std::cout << "Opcion no disponible" << std::endl;
 }

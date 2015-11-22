@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include "wrapperxml.h"
+#include "wrapperjson.h"
 #include "rapidxml/rapidxml.hpp"
 #include "clientinmemdb.h"
 
@@ -11,6 +12,7 @@ private:
     std::string _protocol;
     WrapperXml * _wrapperXml;
     ClientInmemdb* client;
+    WrapperJson * _wrapperJson;
 public:
     Adapter();
     void setProtocol(std::string pProtocol);
