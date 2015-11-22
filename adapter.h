@@ -4,11 +4,13 @@
 #include <iostream>
 #include "wrapperxml.h"
 #include "rapidxml/rapidxml.hpp"
+#include "clientinmemdb.h"
 
 class Adapter{
 private:
     std::string _protocol;
     WrapperXml * _wrapperXml;
+    ClientInmemdb* client;
 public:
     Adapter();
     void setProtocol(std::string pProtocol);

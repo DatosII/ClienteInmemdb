@@ -15,10 +15,12 @@ TEMPLATE = app
 SOURCES += main.cpp \
     wrapperxml.cpp \
     terminal/terminal.cpp \
-    adapter.cpp
+    adapter.cpp \
+    clientinmemdb.cpp
 
 HEADERS  += \
     wrapperxml.h \
     terminal/terminal.h \
-    adapter.h
+    adapter.h \
+    clientinmemdb.h
 CONFIG += c++11
